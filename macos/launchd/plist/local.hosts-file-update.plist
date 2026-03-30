@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.dns.update</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/local/libexec/update_hosts.sh</string>
+    </array>
+
+    <!-- 每天10点执行 -->
+    <key>StartCalendarInterval</key>
+    <dict>
+      <key>Hour</key>
+      <integer>10</integer>
+      <key>Minute</key>
+      <integer>0</integer>
+    </dict>
+
+    <!-- 加载立即执行 -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- 日志 -->
+    <key>StandardOutPath</key>
+    <string>/tmp/hosts_file_update.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/hosts_file_update.err</string>
+  </dict>
+</plist>
