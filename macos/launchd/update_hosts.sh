@@ -23,10 +23,19 @@ CHANGED=0
 
 # 复制原 hosts
 cp "$HOSTS_FILE" "$TMP_FILE"
+# 验证是否为有效 IP 地址
+is_valid_ip() {
+    local ip=$1
+    if [[ "$ip" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+        return 0
+    fi
+    return 1
+}
 for domain in "${DOMAINS[@]}"; do
     # 用 dig 获取第一个 IP
     ip=$(/usr/bin/dig +short "$domain" @"$DNS" | /usr/bin/head -n1)
-    if [ -n "$ip" ]; then
+    # 验证是否为有效 IP，避免 dig 失败时更新错误记录
+    if is_valid_ip "$ip"; then
         # 取旧 IP（如果存在）
         old_ip=$(/usr/bin/grep "[[:space:]]$domain\$" "$HOSTS_FILE" | /usr/bin/awk '{print $1}')
         if [ "$ip" != "$old_ip" ]; then
@@ -37,6 +46,8 @@ for domain in "${DOMAINS[@]}"; do
             echo "$ip $domain" >> "$TMP_FILE"
             CHANGED=1
         fi
+    else
+        echo "Dig failed for $domain, result: '$ip'"
     fi
 done
 
