@@ -53,7 +53,7 @@ done
 
 # 只有变化才覆盖
 if [ "$CHANGED" -eq 1 ]; then
-    /bin/cp "$TMP_FILE" "$HOSTS_FILE"
+    sudo install -m 644 "$TMP_FILE" /etc/hosts
     # 刷新 DNS 缓存
     /usr/bin/dscacheutil -flushcache
     /usr/bin/killall -HUP mDNSResponder
