@@ -61,3 +61,6 @@ if [ "$CHANGED" -eq 1 ]; then
 else
     echo "No changes at $(date)"
 fi
+
+# reset routing
+/usr/local/libexec/reset_routing.sh
