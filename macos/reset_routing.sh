@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# =============================
+# 🧠 重置路由表（将某个目标IP的流量都转发到utun上，再通过tun2socks发给clash）
+# 安装tun2socks(解压到/usr/local/bin): https://github.com/xjasonlyu/tun2socks/
+# tun2socks --device utun233 --proxy socks5://127.0.0.1:7897
+# =============================
 INTERFACE="utun233"
 DOMAIN="test.cvpn-endpoint-04a43651f28c7c9b7.prod.clientvpn.eu-west-2.amazonaws.com"
 HOSTS_FILE="/etc/hosts"
