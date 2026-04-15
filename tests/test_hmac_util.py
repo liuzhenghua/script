@@ -1,5 +1,5 @@
 import time
-from sign.hmac_util import hmac_sha256
+from utils.sign.hmac_util import hmac_sha256
 
 
 def test_hmac_sha256_with_timestamp_and_secret():
