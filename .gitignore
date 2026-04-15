@@ -1,3 +1,5 @@
 .jarvis/
 .idea
 __pycache__
+docker/mysql/data/
+docker/postgres/data/
