@@ -5,6 +5,7 @@
 # 前置确认脚本：mkdir /usr/local/libexec
 # 拷贝文件(需要root): cp update_hosts.sh /usr/local/libexec/ && cp plist/local.hosts-file-update.plist /Library/LaunchDaemons/
 # 安装任务：launchctl load /Library/LaunchDaemons/local.hosts-file-update.plist
+# 卸载任务：launchctl unload /Library/LaunchDaemons/local.hosts-file-update.plist
 # ==========================================
 DOMAINS=(
   "test.cvpn-endpoint-04a43651f28c7c9b7.prod.clientvpn.eu-west-2.amazonaws.com"
