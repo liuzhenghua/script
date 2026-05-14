@@ -1,0 +1,42 @@
+# SeekDB - OceanBase 轻量级数据库实例
+# 官方文档: https://github.com/oceanbase/docker-images/blob/main/seekdb/README_CN.md
+#
+# 环境变量说明:
+#   ROOT_PASSWORD      - root 用户密码
+#   SEEKDB_DATABASE    - 创建的默认数据库名称
+#   CPU_COUNT          - CPU 数量
+#   MEMORY_LIMIT       - 内存限制（如 2G）
+#   LOG_DISK_SIZE      - 日志磁盘大小
+#   DATAFILE_SIZE      - 数据文件初始大小
+#   DATAFILE_NEXT      - 数据文件增长步长
+#   DATAFILE_MAXSIZE   - 数据文件最大大小
+#   INIT_SCRIPTS_PATH  - 初始化 SQL 脚本所在路径
+
+services:
+  seekdb:
+    image: oceanbase/seekdb
+    container_name: script-seekdb
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      ROOT_PASSWORD: ${SEEKDB_ROOT_PASSWORD:-root123456}
+      SEEKDB_DATABASE: ${SEEKDB_DATABASE:-app}
+      CPU_COUNT: ${SEEKDB_CPU_COUNT:-1}
+      MEMORY_LIMIT: ${SEEKDB_MEMORY_LIMIT:-2G}
+      LOG_DISK_SIZE: ${SEEKDB_LOG_DISK_SIZE:-2G}
+      DATAFILE_SIZE: ${SEEKDB_DATAFILE_SIZE:-2G}
+      DATAFILE_NEXT: ${SEEKDB_DATAFILE_NEXT:-2G}
+      DATAFILE_MAXSIZE: ${SEEKDB_DATAFILE_MAXSIZE:-50G}
+      INIT_SCRIPTS_PATH: /root/boot/init.d
+    ports:
+      - "${SEEKDB_PORT:-2881}:2881"
+      - "${SEEKDB_OBSHELL_PORT:-2886}:2886"
+    volumes:
+      - ./data:/var/lib/oceanbase
+      - ./init:/root/boot/init.d
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -P 2881 -uroot -p$$ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
